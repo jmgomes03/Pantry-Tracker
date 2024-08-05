@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react'
 import { firestore } from '@/firebase'
 import { Box, Modal, Typography, Stack, TextField, Button } from '@mui/material'
-import { collection, deleteDoc, doc, getDocs, query, getDoc, setDoc } from 'firebase/firestore'; // Ensure query is imported
-import Image from 'next/image'; // Import Image
+import { collection, deleteDoc, doc, getDocs, query, getDoc, setDoc } from 'firebase/firestore' // Ensure query is imported
+import Image from 'next/image' // Import Image
 
 export default function Home() {
   // variables
