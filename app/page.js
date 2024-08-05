@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { firestore } from '@/firebase'
 import { Box, Modal, Typography, Stack, TextField, Button } from '@mui/material'
-import { collection, deleteDoc, doc, getDocs, query, getDoc, setDoc } from 'firebase/firestore' // Ensure query is imported
+import { collection, deleteDoc, doc, getDocs, query, getDoc, setDoc } from 'firebase/firestore'
 import Image from 'next/image' // Import Image
 
 export default function Home() {
@@ -11,7 +11,6 @@ export default function Home() {
   const [open, setOpen] = useState(false)
   const [itemName, setItemName] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
-  const [showHelp, setShowHelp] = useState(false) // State for Help section visibility
 
   // fetching function
   const updateInventory = async () => {
@@ -62,7 +61,6 @@ export default function Home() {
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-  const toggleHelp = () => setShowHelp((prev) => !prev); // Toggle help visibility
 
   return (
     <Box width="100vw" height="100vh" 
@@ -81,7 +79,7 @@ export default function Home() {
       {/* Fruit basket icon */}
       <Image src="/fruit-basket.png" alt="Fruit Basket" width={100} height={100} />
 
-      {/* Title */}
+      {/* title */}
       <Typography variant="h1" color="#c0bbf9" style={{ marginBottom: 70 }}>
         Track Your Inventory
       </Typography>
@@ -108,15 +106,15 @@ export default function Home() {
               fullWidth
               value={itemName}
               onChange={(e) => {
-                setItemName(e.target.value);
+                setItemName(e.target.value)
               }}
             />
             <Button
               variant="outlined"
               onClick={() => {
-                addItem(itemName);
-                setItemName('');
-                handleClose();
+                addItem(itemName)
+                setItemName('')
+                handleClose()
               }}
             >
               Add
@@ -204,27 +202,6 @@ export default function Home() {
           }
         </Stack>
       </Box>
-
-      {/* help button */}
-      <Button variant="outlined" onClick={toggleHelp} sx={{ mt: 2 }}>
-        Help
-      </Button>
-
-      {/* help section */}
-      {showHelp && (
-        <Box width="600px" bgcolor="#ffe5b9" p={2} borderRadius={2} mt={4}>
-          <Typography variant="h6" color="black" textAlign="center">
-            Help
-          </Typography>
-          <Typography variant="h6" color="black" mt={1}>
-            Add new item: creates a new item for your inventory.
-            <br />
-            Add an item: adds one more quantity of the respective item.
-            <br />
-            Remove an item: deletes one item of the respective item.
-          </Typography>
-        </Box>
-      )}
     </Box>
-  );
+  )
 }
