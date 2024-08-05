@@ -1,67 +1,67 @@
 'use client'
-import { useState, useEffect } from 'react';
-import { firestore } from '@/firebase';
-import { Box, Modal, Typography, Stack, TextField, Button } from '@mui/material';
+import { useState, useEffect } from 'react'
+import { firestore } from '@/firebase'
+import { Box, Modal, Typography, Stack, TextField, Button } from '@mui/material'
 import { collection, deleteDoc, doc, getDocs, query, getDoc, setDoc } from 'firebase/firestore'; // Ensure query is imported
 import Image from 'next/image'; // Import Image
 
 export default function Home() {
   // variables
-  const [inventory, setInventory] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [itemName, setItemName] = useState('');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showHelp, setShowHelp] = useState(false); // State for Help section visibility
+  const [inventory, setInventory] = useState([])
+  const [open, setOpen] = useState(false)
+  const [itemName, setItemName] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showHelp, setShowHelp] = useState(false) // State for Help section visibility
 
   // fetching function
   const updateInventory = async () => {
-    const snapshot = query(collection(firestore, 'inventory'));
-    const docs = await getDocs(snapshot);
-    const inventoryList = [];
+    const snapshot = query(collection(firestore, 'inventory'))
+    const docs = await getDocs(snapshot)
+    const inventoryList = []
     docs.forEach((doc) => {
       inventoryList.push({
         name: doc.id,
         ...doc.data(),
-      });
-    });
-    setInventory(inventoryList);
-    console.log(inventoryList);
-  };
+      })
+    })
+    setInventory(inventoryList)
+    console.log(inventoryList)
+  }
 
   const addItem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item);
-    const docSnap = await getDoc(docRef);
+    const docRef = doc(collection(firestore, 'inventory'), item)
+    const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
-      const { quantity } = docSnap.data();
-      await setDoc(docRef, { quantity: quantity + 1 });
+      const { quantity } = docSnap.data()
+      await setDoc(docRef, { quantity: quantity + 1 })
     } else {
-      await setDoc(docRef, { quantity: 1 });
+      await setDoc(docRef, { quantity: 1 })
     }
-    await updateInventory();
-  };
+    await updateInventory()
+  }
 
   const removeItem = async (item) => {
-    const docRef = doc(collection(firestore, 'inventory'), item);
-    const docSnap = await getDoc(docRef);
+    const docRef = doc(collection(firestore, 'inventory'), item)
+    const docSnap = await getDoc(docRef)
 
     if (docSnap.exists()) {
-      const { quantity } = docSnap.data();
+      const { quantity } = docSnap.data()
       if (quantity === 1) {
-        await deleteDoc(docRef);
+        await deleteDoc(docRef)
       } else {
-        await setDoc(docRef, { quantity: quantity - 1 });
+        await setDoc(docRef, { quantity: quantity - 1 })
       }
     }
-    await updateInventory();
-  };
+    await updateInventory()
+  }
 
   useEffect(() => {
-    updateInventory();
-  }, []);
+    updateInventory()
+  }, [])
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
   const toggleHelp = () => setShowHelp((prev) => !prev); // Toggle help visibility
 
   return (
@@ -183,7 +183,7 @@ export default function Home() {
                   <Button 
                     variant="contained" 
                     onClick={() => {
-                      addItem(name);
+                      addItem(name)
                     }}  
                   > 
                     Add an Item 
@@ -192,7 +192,7 @@ export default function Home() {
                   <Button 
                     variant="contained" 
                     onClick={() => {
-                      removeItem(name);
+                      removeItem(name)
                     }}  
                     sx={{ background: 'red', color: 'white' }}
                   > 
